@@ -1,5 +1,5 @@
 const product=[
-    {name:"iphone 12",
+    {name:"iphone 13",
     price:40,
     img:"img/iphone.jpg"
 
