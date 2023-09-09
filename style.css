@@ -56,6 +56,7 @@ div#cart input {
     border: 1px solid #706c6c;
     border-radius: 5px;
     background-color: #a8a1a1f5;
+    padding: 10px;
 }
 .main{
     height: 100%;
@@ -65,7 +66,11 @@ div#cart input {
     width:68%
 }
 
-    
+input#allprice {
+    border-radius: 4px;
+    padding: 5px;
+    width: 100px;
+}    
 
 div#products {
     display: flex;
@@ -87,3 +92,10 @@ div#cart {
 .addtocart{
     margin:5px;
 }
+#bascketItem{
+    padding:10px;
+}
+#removeItem{
+    float:left;
+}
+

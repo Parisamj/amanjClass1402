@@ -15,33 +15,36 @@ const product=[
     }
 ]
 
-
-
 const addbut=document.getElementById("addItem");
 const products=document.getElementById("products");
+const productBascket=document.getElementById("productBascket");
+
 let cart=[];
 let cartprice=[];
 
+function createEl(element,name){
+const item=document.createElement(element);
+item.setAttribute("class",name);
+item.setAttribute("id",name);
+return item;
+
+}
 
 function updateItems(){
+    
     product.forEach(product =>{
 
-        const prodDiv=document.createElement("div");
-        const prodItem=document.createElement('div');
-        const prodimg=document.createElement('img');    
-        const prodprice=document.createElement('div');
-        const addToCart=document.createElement('input');
+        const prodDiv=createEl("div","product");
+        const prodItem=createEl("div","name");
+        const prodimg=createEl("img","myimg");    
+        const prodprice=createEl("div","price"); 
+        const addToCart=createEl("input","addtocart");    
+        
         addToCart.type="button";
-        addToCart.value="add to cart";
-        prodItem.textContent="add to cart";
-
-
+        addToCart.value="add to cart";           
+        prodItem.textContent=product.name;        
+        prodprice.textContent=product.price;  
     
-        prodItem.textContent=product.name;
-        prodprice.textContent=product.price;
-       
-    
-       
         prodDiv.appendChild(prodItem);
         if(product.img){
     
@@ -51,58 +54,60 @@ function updateItems(){
         prodDiv.appendChild(prodimg);    
         prodDiv.appendChild(prodprice);    
         products.appendChild(prodDiv);
-        prodDiv.appendChild(addToCart);   
-    
-        prodDiv.setAttribute("class","product");
-        prodItem.setAttribute("class","name");
-        prodprice.setAttribute("class","price");
-        prodimg.setAttribute("class","myimg");
-        addToCart.setAttribute("class","addtocart");
-
-        //Add To Cart      
-
-        addToCart.onclick=()=>{
-        cart.push(product);
-        //     console.log(cart);
-        //     updateBascket();
-        let bascketItem=document.createElement('div');
-        bascketItem.textContent=product.name;
-        console.log(bascketItem);
-        let sidebar=document.getElementById('sidebar');
-        sidebar.appendChild(bascketItem);
-        let allPricePtxt=document.getElementById("allprice");
-        cart.forEach(cart=>{
-            let allprice=0;
-            allprice += Number(cart.price);
-            // allPricePtxt.textContent=allprice;
-console.log(allprice);  
-
-        })
-   
-    
-         }
-                     
+        prodDiv.appendChild(addToCart); 
+        addToCart.onclick=()=>{  
+            cart.push(product);
+            updateCart();
+            console.log(cart);
+            //cart=[];            
+        }
+        console.log(cart);                   
             
     })  
-    
-
 
 }
+
+//Add To Cart 
+let total=0;
+function updateCart(){
+    productBascket.innerHTML="";
+    total=0;
+    
+    cart.forEach(cartp=>{
+        console.log(cartp);
+        console.log(cart);
+        let bascketItem=createEl('div','bascketItem')
+        const removeItem= createEl("input","removeItem");
+        removeItem.type='button';
+        removeItem.value='remove';
+        bascketItem.textContent=cartp.name;
+        bascketItem.appendChild(removeItem);
+        removeItem.onclick=(()=>{
+            cart= cart.filter(el=>el.name !==cartp.name);
+            total -= Number(cartp.price);  
+            updateCart();
+            })
+        console.log(bascketItem);
+        productBascket.appendChild(bascketItem);  
+        
+        total += Number(cartp.price);  
+        
+        
+        console.log(total); 
+        return total;    
+        
+
+    })   
+    let allPricePtxt=document.getElementById("allprice");
+    allPricePtxt.value=total; 
+    
+
+
+   // let allPricePtxt=document.getElementById("allprice");
+   // allPricePtxt.value(total); 
+
+}          
 updateItems();
-
-//function updateBascket(){
-    //cart.forEach(cart=>{
-
-        // let bascketItem=document.createElement('div');
-        // bascketItem.textContent=cart.name;
-        // console.log(bascketItem);
-        // let sidebar=document.getElementById('sidebar');
-        // sidebar.appendChild(bascketItem);    
-    
-    //})
-    
-//}
-
 
 
 addbut.onclick=()=>{
@@ -125,7 +130,7 @@ addbut.onclick=()=>{
     
         updateItems();
 
-    }        
+    }    
     
    
 }
